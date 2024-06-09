@@ -1,4 +1,5 @@
-﻿namespace Finshark.Models;
+﻿using Microsoft.AspNetCore.Mvc.Routing;
+namespace Finshark.Models;
 
 public class Comment
 {
