@@ -2,8 +2,8 @@
 
 public class Comment
 {
-    public int Id { get; set; }
     public string Url { get; set; } = string.Empty;
+    public int Id { get; set; }
     public string Subject { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;
     public DateTime CreationTime { get; set; } = DateTime.Now;
