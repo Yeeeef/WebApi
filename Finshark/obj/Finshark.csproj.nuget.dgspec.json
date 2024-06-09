@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\SyncthingServiceAcct\\Rj's Coding\\Coding Challenges\\WebApi\\Finshark\\Finshark.csproj": {}
+    "c:\\Users\\SyncthingServiceAcct\\Rj's Coding\\Coding Challenges\\WebApi\\Finshark\\Finshark.csproj": {}
   },
   "projects": {
-    "C:\\Users\\SyncthingServiceAcct\\Rj's Coding\\Coding Challenges\\WebApi\\Finshark\\Finshark.csproj": {
+    "c:\\Users\\SyncthingServiceAcct\\Rj's Coding\\Coding Challenges\\WebApi\\Finshark\\Finshark.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\SyncthingServiceAcct\\Rj's Coding\\Coding Challenges\\WebApi\\Finshark\\Finshark.csproj",
+        "projectUniqueName": "c:\\Users\\SyncthingServiceAcct\\Rj's Coding\\Coding Challenges\\WebApi\\Finshark\\Finshark.csproj",
         "projectName": "Finshark",
-        "projectPath": "C:\\Users\\SyncthingServiceAcct\\Rj's Coding\\Coding Challenges\\WebApi\\Finshark\\Finshark.csproj",
+        "projectPath": "c:\\Users\\SyncthingServiceAcct\\Rj's Coding\\Coding Challenges\\WebApi\\Finshark\\Finshark.csproj",
         "packagesPath": "C:\\Users\\rjray\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\SyncthingServiceAcct\\Rj's Coding\\Coding Challenges\\WebApi\\Finshark\\obj\\",
+        "outputPath": "c:\\Users\\SyncthingServiceAcct\\Rj's Coding\\Coding Challenges\\WebApi\\Finshark\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

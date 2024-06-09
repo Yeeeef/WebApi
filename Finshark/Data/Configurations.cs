@@ -9,9 +9,6 @@ namespace Finshark.Data;
 {
     public void Configure(EntityTypeBuilder<Stock> builder)
     {
-        builder
-        .Property(b => b.Url)
-        .IsRequired();
 
     }
 
@@ -21,9 +18,6 @@ namespace Finshark.Data;
 {
     public void Configure(EntityTypeBuilder<Comment> builder)
     {
-        builder
-        .Property(b => b.Url)
-        .IsRequired();
     
     }
 
