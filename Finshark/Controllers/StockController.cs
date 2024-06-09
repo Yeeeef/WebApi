@@ -1,5 +1,5 @@
 ﻿using Finshark.Data;
-using Finshark.Models;
+using Finshark.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +18,8 @@ namespace Finshark.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var stocks = _dbContext.Stocks.ToList();
+            var stocks = _dbContext.Stocks.ToList()
+            .Select(s => s.ToStockDTO());
             return Ok(stocks);
         }
 
@@ -30,8 +31,16 @@ namespace Finshark.Controllers
             {
                 return NotFound();
             }
-            return Ok(stock);
+            return Ok(stock.ToStockDTO());
         }
 
+        [HttpPost]
+        public IActionResult Create([FromBody] CreateStockRequestDTO stockDTO )
+        {
+            var stockModel = stockDTO.ToStockFromCreateDTO();
+            _dbContext.Stocks.Add(stockModel);
+            _dbContext.SaveChanges();
+            return CreatedAtAction(nameof(GetByID), new {id = stockModel.Id}, stockModel.ToStockDTO());
+        }
     }
 };
