@@ -71,10 +71,10 @@ namespace Finshark.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<decimal>("Profit")
-                        .HasColumnType("decimal(18,2");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Purchase")
-                        .HasColumnType("decimal(18,2");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Symbol")
                         .IsRequired()
