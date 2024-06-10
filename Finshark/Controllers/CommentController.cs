@@ -1,5 +1,6 @@
 ﻿using Finshark.Data;
 using Finshark.DTO;
+using Finshark.Mappers;
 using Finshark.Models;
 using Microsoft.AspNetCore.Mvc;
 

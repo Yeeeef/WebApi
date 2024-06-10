@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Finshark.Data;
 using Finshark.Controllers;
 
-namespace Finshark;
+namespace Finshark.Mappers
+{
     [Route("api/comment")]
     [ApiController]
     public static class CommentMapper
@@ -33,4 +34,5 @@ namespace Finshark;
                 StockId = commentDTO.StockId,
             };
         }
-}
+    }
+};
