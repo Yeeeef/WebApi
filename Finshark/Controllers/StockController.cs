@@ -43,7 +43,7 @@ namespace Finshark.Controllers
         public async Task<IActionResult> CreateAsync([FromBody] CreateStockRequestDTO stockDTO )
         {
             var stockModel =  stockDTO.ToStockFromCreateDTO();
-            
+            await _stockRepository.CreateAsync(stockModel);
             return Ok(stockModel.ToStockDTO());
         }
 
@@ -52,10 +52,7 @@ namespace Finshark.Controllers
         public async Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody] UpdateStockRequestDTO updateDTO)
         {
             var stock = await _stockRepository.UpdateAsync(id, updateDTO);
-            if (stock == null)
-            {
-                return NotFound();
-            }
+            if (stock == null) return NotFound();
             return Ok(stock.ToStockDTO());
         }
 
@@ -63,15 +60,9 @@ namespace Finshark.Controllers
         [Route("{id}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] int id)
         {
-
             var stock = await _stockRepository.DeleteAsync(id);
-            if (stock == null)
-            {
-                return NotFound();
-            }
-            
+            if (stock == null) return NotFound();  
             return NoContent();
-            
         }
     }
 };
