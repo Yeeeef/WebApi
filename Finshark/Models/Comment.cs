@@ -11,6 +11,6 @@ public class Comment
     //links Comment to Stock
     public int? StockId { get; set; }
     //Navigation Property
-    public Stock? Stock { get; set; }
+    public string CompanyName { get; set; } = string.Empty;
 
 }

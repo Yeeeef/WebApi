@@ -1,4 +1,5 @@
 ﻿using Finshark.Data;
+using Finshark.DTO;
 using Finshark.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +8,7 @@ namespace Finshark.Controllers
     [Route("api/comment")]
     [ApiController]
     public class CommentController : ControllerBase
-        {
+    {
         private readonly ApplicationDBContext _dbContext;
         public CommentController(ApplicationDBContext context)
         {
@@ -32,5 +33,16 @@ namespace Finshark.Controllers
             }
             return Ok(_comment);
         }
+
+        [HttpPost]
+        public IActionResult Create([FromBody] CreateCommentRequestDTO commentDTO )
+        {
+            var commentModel = commentDTO.ToCommentFromCreateDTO();
+            _dbContext.Comments.Add(commentModel);
+            _dbContext.SaveChanges();
+            return CreatedAtAction(nameof(GetByID), new {id = commentModel.Id}, commentModel.ToCommentDTO());
+
+
         }
-};
+    }
+}

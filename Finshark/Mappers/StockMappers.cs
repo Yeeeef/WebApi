@@ -1,4 +1,5 @@
-﻿using Finshark.Models;
+﻿using Finshark.DTO;
+using Finshark.Models;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Finshark.Mappers;
@@ -29,6 +30,7 @@ public static class StockMappers
             Industry = stockDTO.Industry,
             Profit = stockDTO.Profit,
             MarketCap = stockDTO.MarketCap,
+            Comments = stockDTO.Comments
         };
     }
 }

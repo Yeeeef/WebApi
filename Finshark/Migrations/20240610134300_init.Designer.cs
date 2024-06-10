@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Finshark.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240609154612_init")]
+    [Migration("20240610134300_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -44,10 +44,6 @@ namespace Finshark.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Url")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -84,10 +80,6 @@ namespace Finshark.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Symbol")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Url")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

@@ -1,4 +1,6 @@
-﻿namespace Finshark;
+﻿using Finshark.Models;
+
+namespace Finshark.DTO;
 
 public class StockDTO
 {
@@ -9,4 +11,5 @@ public class StockDTO
     public decimal Profit { get; set; }
     public string Industry { get; set; } = string.Empty;
     public long MarketCap { get; set; }
+    public List<Comment> Comments { get; set; } = new List<Comment>();
 }
