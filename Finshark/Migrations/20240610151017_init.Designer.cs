@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Finshark.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240610134300_init")]
+    [Migration("20240610151017_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -32,6 +32,10 @@ namespace Finshark.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -90,11 +94,9 @@ namespace Finshark.Migrations
 
             modelBuilder.Entity("Finshark.Models.Comment", b =>
                 {
-                    b.HasOne("Finshark.Models.Stock", "Stock")
+                    b.HasOne("Finshark.Models.Stock", null)
                         .WithMany("Comments")
                         .HasForeignKey("StockId");
-
-                    b.Navigation("Stock");
                 });
 
             modelBuilder.Entity("Finshark.Models.Stock", b =>
