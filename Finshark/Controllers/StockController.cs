@@ -43,8 +43,8 @@ namespace Finshark.Controllers
         public async Task<IActionResult> CreateAsync([FromBody] CreateStockRequestDTO stockDTO )
         {
             var stockModel =  stockDTO.ToStockFromCreateDTO();
-            await _stockRepository.CreateAsync(stockModel);
-            return CreatedAtAction(nameof(GetByIDAsync), new {id = stockModel.Id}, stockModel.ToStockDTO());
+            
+            return Ok(stockModel.ToStockDTO());
         }
 
         [HttpPut]
