@@ -9,8 +9,6 @@ namespace Finshark.Repository;
 public class StockRepository : IStockRepository
 {
     private readonly ApplicationDBContext _dbContext;
-    private readonly IStockRepository _stockRepository;
-
     public StockRepository(ApplicationDBContext DBContext)
     {
         _dbContext = DBContext;
