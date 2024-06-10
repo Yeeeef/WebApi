@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Finshark.Data;
 using Finshark.Models;
+using Finshark;
+using Finshark.Repository;
+using Finshark.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,8 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddScoped<IStockRepository, StockRepository>();
 
 var app = builder.Build();
 
