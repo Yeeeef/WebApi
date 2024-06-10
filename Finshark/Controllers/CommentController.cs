@@ -1,5 +1,7 @@
-﻿using Finshark.Data;
+﻿using System.Runtime.CompilerServices;
+using Finshark.Data;
 using Finshark.DTO;
+using Finshark.Interfaces;
 using Finshark.Mappers;
 using Finshark.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,23 +13,26 @@ namespace Finshark.Controllers
     public class CommentController : ControllerBase
     {
         private readonly ApplicationDBContext _dbContext;
-        public CommentController(ApplicationDBContext context)
+        private readonly ICommentRepository commentRepo;
+        public CommentController(ApplicationDBContext context, ICommentRepository commentRepository)
         {
             _dbContext = context;
+            commentRepo = commentRepository;
         }
 
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var _comments = _dbContext.Comments.ToList();
-            return Ok(_comments);
+            var _comments = await commentRepo.GetAllAsync();
+            var commentsDTO = _comments.Select(c => c.ToCommentDTO());
+            return Ok(commentsDTO);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetByID([FromRoute]int id)
+        public async Task<IActionResult> GetByID([FromRoute]int id)
         {
-            var _comment = _dbContext.Comments.Find(id);
+            var _comment = await commentRepo.GetByIdAsync(id);
             if ( _comment== null)
             {
                 return NotFound();
@@ -36,13 +41,11 @@ namespace Finshark.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateCommentRequestDTO commentDTO )
+        public async Task<IActionResult> Create([FromBody] CreateCommentRequestDTO commentDTO )
         {
-            var commentModel = commentDTO.ToCommentFromCreateDTO();
-            _dbContext.Comments.Add(commentModel);
-            _dbContext.SaveChanges();
-            return CreatedAtAction(nameof(GetByID), new {id = commentModel.Id}, commentModel.ToCommentDTO());
-
+            Comment commentModel = commentDTO.ToCommentFromCreateDTO();
+            await commentRepo.CreateAsync(commentModel);
+            return Ok(commentModel);
 
         }
     }

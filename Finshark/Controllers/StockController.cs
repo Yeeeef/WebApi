@@ -25,7 +25,8 @@ namespace Finshark.Controllers
         public async Task<IActionResult> GetAllAsync()
         {
             var stocks = await _stockRepository.GetAllAsync();
-            return Ok(stocks);
+            var stocksDTO = stocks.Select(s => s.ToStockDTO());
+            return Ok(stocksDTO);
         }
 
         [HttpGet("{id}")]

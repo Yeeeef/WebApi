@@ -30,10 +30,6 @@ namespace Finshark.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CompanyName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -91,9 +87,11 @@ namespace Finshark.Migrations
 
             modelBuilder.Entity("Finshark.Models.Comment", b =>
                 {
-                    b.HasOne("Finshark.Models.Stock", null)
+                    b.HasOne("Finshark.Models.Stock", "Stock")
                         .WithMany("Comments")
                         .HasForeignKey("StockId");
+
+                    b.Navigation("Stock");
                 });
 
             modelBuilder.Entity("Finshark.Models.Stock", b =>
