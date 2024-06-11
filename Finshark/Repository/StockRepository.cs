@@ -33,7 +33,7 @@ public class StockRepository : IStockRepository
 
     public async Task<Stock?> Delete(int id)
     {
-        var stock = await _dbContext.Stocks.FirstOrDefaultAsync(s => s.Id == id);
+        var stock = await _dbContext.Stocks.Include(c => c.Comments).FirstOrDefaultAsync(s => s.Id == id);
             if(stock == null)
             {
                 return null;

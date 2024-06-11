@@ -63,7 +63,7 @@ namespace Finshark.Controllers
         {
             var stock = await _stockRepository.Delete(id);
             if (stock == null) return NotFound();  
-            return NoContent();
+            return Ok("Stock Deleted");
         }
     }
 };

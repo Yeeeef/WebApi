@@ -47,4 +47,16 @@ public class CommentRepository : ICommentRepository
     {
         return await _dbContext.Comments.AnyAsync(s => s.Id == id);
     }
+
+    public async Task<Comment?> Delete(int id)
+    {
+        var _comment = await _dbContext.Comments.FirstOrDefaultAsync(c => c.Id == id);
+        if (_comment == null)
+        {
+            return null;
+        }
+        _dbContext.Comments.Remove(_comment);
+        await _dbContext.SaveChangesAsync();
+        return(_comment);
+    }
 }

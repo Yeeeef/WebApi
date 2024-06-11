@@ -19,7 +19,7 @@ namespace Finshark.Mappers
             {
                 Id = comment.Id,
                 Subject = comment.Subject,
-                Content = comment.Content
+                Content = comment.Content,
             };
         }
 

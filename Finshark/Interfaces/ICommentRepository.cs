@@ -9,4 +9,5 @@ public interface ICommentRepository
     Task<Comment> Create(Comment comment);
     Task<Comment?> GetById(int id);
     Task<Comment> Update(Comment comment, UpdateCommentRequestDTO update);
+    Task<Comment?> Delete(int id);
 }
