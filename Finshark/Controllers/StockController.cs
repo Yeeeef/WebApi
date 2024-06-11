@@ -45,7 +45,7 @@ namespace Finshark.Controllers
         {
             var stockModel =  stockDTO.ToStockFromCreateDTO();
             await _stockRepository.Create(stockModel);
-            return CreatedAtAction(nameof(GetByID),stockModel.ToStockDTO());
+            return CreatedAtAction(nameof(GetByID), new { id = stockModel}, stockModel);
         }
 
         [HttpPut]
