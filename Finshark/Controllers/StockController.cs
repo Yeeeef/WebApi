@@ -23,7 +23,7 @@ namespace Finshark.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromRoute] QueryObject query)
+        public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
         {
             if(!ModelState.IsValid)
             {
