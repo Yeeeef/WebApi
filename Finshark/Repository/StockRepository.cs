@@ -15,15 +15,15 @@ public class StockRepository : IStockRepository
     }
 
 
-    public Task<List<Stock>> GetAllAsync()
+    public Task<List<Stock>> GetAll()
     {
-        return _dbContext.Stocks.ToListAsync();
+        return _dbContext.Stocks.Include(c => c.Comments).ToListAsync();
     }
 
-    public async Task<Stock?> GetByIDAsync(int id) => await _dbContext.Stocks.FirstOrDefaultAsync(i => i.Id == id);
+    public async Task<Stock?> GetByID(int id) => await _dbContext.Stocks.Include(c => c.Comments).FirstOrDefaultAsync(i => i.Id == id);
 
 
-        public async Task<Stock> CreateAsync(Stock stockModel)
+        public async Task<Stock> Create(Stock stockModel)
     {
         await _dbContext.Stocks.AddAsync(stockModel);
         await _dbContext.SaveChangesAsync();
@@ -31,7 +31,7 @@ public class StockRepository : IStockRepository
         
     }
 
-    public async Task<Stock?> DeleteAsync(int id)
+    public async Task<Stock?> Delete(int id)
     {
         var stock = await _dbContext.Stocks.FirstOrDefaultAsync(s => s.Id == id);
             if(stock == null)
@@ -43,7 +43,7 @@ public class StockRepository : IStockRepository
         return stock;
     }
 
-    public async Task<Stock?> UpdateAsync(int id, UpdateStockRequestDTO stockModel)
+    public async Task<Stock?> Update(int id, UpdateStockRequestDTO stockModel)
             {
             var stock = await _dbContext.Stocks.FirstOrDefaultAsync(s => s.Id == id);
             if (stock == null)
@@ -61,4 +61,9 @@ public class StockRepository : IStockRepository
 
             return stock;
         }
+
+    public async Task<bool> StockExists(int id)
+    {
+        return await _dbContext.Stocks.AnyAsync(s => s.Id == id);
+    }
 }

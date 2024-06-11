@@ -22,17 +22,17 @@ namespace Finshark.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<IActionResult> GetAll()
         {
-            var stocks = await _stockRepository.GetAllAsync();
+            var stocks = await _stockRepository.GetAll();
             var stocksDTO = stocks.Select(s => s.ToStockDTO());
             return Ok(stocksDTO);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetByIDAsync([FromRoute]int id)
+        public async Task<IActionResult> GetByID([FromRoute]int id)
         {
-            var stock = await _stockRepository.GetByIDAsync(id);
+            var stock = await _stockRepository.GetByID(id);
             if (stock == null)
             {
                 return NotFound();
@@ -41,27 +41,27 @@ namespace Finshark.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromBody] CreateStockRequestDTO stockDTO )
+        public async Task<IActionResult> Create([FromBody] CreateStockRequestDTO stockDTO )
         {
             var stockModel =  stockDTO.ToStockFromCreateDTO();
-            await _stockRepository.CreateAsync(stockModel);
-            return Ok(stockModel.ToStockDTO());
+            await _stockRepository.Create(stockModel);
+            return CreatedAtAction(nameof(GetByID),stockModel.ToStockDTO());
         }
 
         [HttpPut]
         [Route("{id}")]
-        public async Task<IActionResult> UpdateAsync([FromRoute] int id, [FromBody] UpdateStockRequestDTO updateDTO)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockRequestDTO updateDTO)
         {
-            var stock = await _stockRepository.UpdateAsync(id, updateDTO);
+            var stock = await _stockRepository.Update(id, updateDTO);
             if (stock == null) return NotFound();
             return Ok(stock.ToStockDTO());
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var stock = await _stockRepository.DeleteAsync(id);
+            var stock = await _stockRepository.Delete(id);
             if (stock == null) return NotFound();  
             return NoContent();
         }

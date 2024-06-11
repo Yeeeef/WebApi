@@ -1,9 +1,6 @@
-﻿using System.Text;
-using Finshark.Models;
+﻿namespace Finshark.DTO;
 
-namespace Finshark.DTO;
-
-public class CreateCommentRequestDTO
+public class UpdateCommentRequestDTO
 {
     public string Subject { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;

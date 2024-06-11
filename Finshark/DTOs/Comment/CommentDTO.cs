@@ -9,5 +9,6 @@ public class CommentDTO
     public string Subject { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;
     public DateTime CreationTime { get; set;} = DateTime.Now;
-    public int? StockId { get; set; }
+    public string CompanyName { get; set; } = string.Empty;
+    public int StockId { get; set; }
 }

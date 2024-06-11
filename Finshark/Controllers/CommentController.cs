@@ -14,17 +14,19 @@ namespace Finshark.Controllers
     {
         private readonly ApplicationDBContext _dbContext;
         private readonly ICommentRepository commentRepo;
-        public CommentController(ApplicationDBContext context, ICommentRepository commentRepository)
+        private readonly IStockRepository stockRepository;
+        public CommentController(ApplicationDBContext DBContext, ICommentRepository CommentRepository, IStockRepository StockRepository)
         {
-            _dbContext = context;
-            commentRepo = commentRepository;
+            _dbContext = DBContext;
+            commentRepo = CommentRepository;
+            stockRepository = StockRepository;
         }
 
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var _comments = await commentRepo.GetAllAsync();
+            var _comments = await commentRepo.GetAll();
             var commentsDTO = _comments.Select(c => c.ToCommentDTO());
             return Ok(commentsDTO);
         }
@@ -32,7 +34,7 @@ namespace Finshark.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByID([FromRoute]int id)
         {
-            var _comment = await commentRepo.GetByIdAsync(id);
+            var _comment = await commentRepo.GetById(id);
             if ( _comment== null)
             {
                 return NotFound();
@@ -40,13 +42,28 @@ namespace Finshark.Controllers
             return Ok(_comment);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateCommentRequestDTO commentDTO )
+        [HttpPost("{StockId}")]
+        public async Task<IActionResult> Create([FromRoute] int StockId,[FromBody] CreateCommentRequestDTO commentDTO )
         {
-            Comment commentModel = commentDTO.ToCommentFromCreateDTO();
-            await commentRepo.CreateAsync(commentModel);
-            return Ok(commentModel);
+            if(!await stockRepository.StockExists(StockId))
+            {
+                return BadRequest("Stock is not real.");
+            }
+            Comment commentModel = commentDTO.ToCommentFromCreateDTO(StockId);
+            await commentRepo.Create(commentModel);
+            return CreatedAtAction(nameof(GetByID), new { id = commentModel}, commentModel);
 
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id , [FromBody] UpdateCommentRequestDTO commentRequestDTO)
+        {
+            var _comment = await _dbContext.Comments.FindAsync(id);
+            if (_comment == null)
+            {
+                return BadRequest();
+            }
+            return Ok(await commentRepo.Update(_comment, commentRequestDTO));
         }
     }
 }

@@ -3,6 +3,7 @@ namespace Finshark.Models;
 
 public class Comment
 {
+    internal int id;
 
     public int Id { get; set; }
     public string Subject { get; set; } = string.Empty;

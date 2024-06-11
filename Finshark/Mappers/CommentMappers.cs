@@ -19,19 +19,19 @@ namespace Finshark.Mappers
             {
                 Id = comment.Id,
                 Subject = comment.Subject,
-                Content = comment.Content,
-                StockId = comment.StockId,
-                
+                Content = comment.Content
             };
         }
 
-        public static Comment ToCommentFromCreateDTO(this CreateCommentRequestDTO commentDTO)
+
+
+        public static Comment ToCommentFromCreateDTO(this CreateCommentRequestDTO CommentDTO, int Id)
         {
             return new Comment
             {
-                Subject = commentDTO.Subject,
-                Content = commentDTO.Content,
-                StockId = commentDTO.StockId,
+                Subject = CommentDTO.Subject,
+                Content = CommentDTO.Content,
+                StockId = Id
             };
         }
     }

@@ -2,7 +2,8 @@
 using Finshark.Models;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Finshark.Mappers;
+namespace Finshark.Mappers
+{
 
 public static class StockMappers
 {
@@ -16,7 +17,8 @@ public static class StockMappers
             Industry = stock.Industry,
             Profit =stock.Profit,
             Purchase = stock.Purchase,
-            MarketCap = stock.MarketCap
+            MarketCap = stock.MarketCap,
+            Comments = stock.Comments.Select(x => x.ToCommentDTO() as CommentDTO).ToList(),
         };
     }
 
@@ -30,7 +32,8 @@ public static class StockMappers
             Industry = stockDTO.Industry,
             Profit = stockDTO.Profit,
             MarketCap = stockDTO.MarketCap,
-            Comments = stockDTO.Comments
         };
     }
 }
+};
+

@@ -5,9 +5,10 @@ namespace Finshark.Interfaces;
 
 public interface IStockRepository
 {
-    public Task<Stock?> GetByIDAsync(int id);
-    public Task<List<Stock>> GetAllAsync();
-    public Task<Stock> CreateAsync(Stock stock);
-    public Task<Stock?> DeleteAsync(int id);
-    public Task <Stock?> UpdateAsync(int id, UpdateStockRequestDTO stockRequestDTO);
+    public Task<Stock?> GetByID(int id);
+    public Task<List<Stock>> GetAll();
+    public Task<Stock> Create(Stock stock);
+    public Task<Stock?> Delete(int id);
+    public Task <Stock?> Update(int id, UpdateStockRequestDTO stockModel);
+    public Task <bool> StockExists (int id);
 }
