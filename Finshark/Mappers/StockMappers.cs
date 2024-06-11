@@ -18,7 +18,7 @@ public static class StockMappers
             Profit =stock.Profit,
             Purchase = stock.Purchase,
             MarketCap = stock.MarketCap,
-            Comments = stock.Comments.Select(x => x.ToCommentDTO() as CommentDTO).ToList(),
+            Comments = stock.Comments.Select(x => x.ToCommentDTO()).ToList(),
         };
     }
 

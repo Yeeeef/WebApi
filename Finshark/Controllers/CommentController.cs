@@ -26,14 +26,22 @@ namespace Finshark.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var _comments = await commentRepo.GetAll();
             var commentsDTO = _comments.Select(c => c.ToCommentDTO());
             return Ok(commentsDTO);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetByID([FromRoute]int id)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var _comment = await commentRepo.GetById(id);
             if ( _comment== null)
             {
@@ -42,33 +50,44 @@ namespace Finshark.Controllers
             return Ok(_comment);
         }
 
-        [HttpPost("{StockId}")]
+        [HttpPost("{stockId:int}")]
         public async Task<IActionResult> Create([FromRoute] int StockId,[FromBody] CreateCommentRequestDTO commentDTO )
         {
-            if(!await stockRepository.StockExists(StockId))
+            if(!ModelState.IsValid)
             {
-                return BadRequest("Stock is not real.");
+                return BadRequest(ModelState);
             }
-            Comment commentModel = commentDTO.ToCommentFromCreateDTO(StockId);
-            await commentRepo.Create(commentModel);
-            return CreatedAtAction(nameof(GetByID), new { id = commentModel}, commentModel);
+            var _comment = await commentRepo.Create(commentDTO, StockId);
+            if ( _comment== null)
+            {
+                return NotFound();
+            }
+            return Ok(_comment.ToCommentDTO());
 
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id , [FromBody] UpdateCommentRequestDTO commentRequestDTO)
         {
-            var _comment = await _dbContext.Comments.FindAsync(id);
-            if (_comment == null)
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var commentDTO = await commentRepo.Update(id,commentRequestDTO);
+            if (commentDTO == null)
             {
                 return BadRequest();
             }
-            return Ok(await commentRepo.Update(_comment, commentRequestDTO));
+            return Ok(commentDTO);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var _comment = await commentRepo.Delete(id);
             if (_comment == null)
             {

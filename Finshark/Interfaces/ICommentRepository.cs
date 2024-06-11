@@ -1,13 +1,21 @@
 ﻿using Finshark.DTO;
+using Finshark.Helpers;
 using Finshark.Models;
 
 namespace Finshark.Interfaces;
 
 public interface ICommentRepository
 {
-    Task<List<Comment>> GetAll();
-    Task<Comment> Create(Comment comment);
+    //Create
+    Task<Comment?> Create(CreateCommentRequestDTO commentDTO, int StockId);
+
+    //Read
     Task<Comment?> GetById(int id);
-    Task<Comment> Update(Comment comment, UpdateCommentRequestDTO update);
+    Task<List<Comment>> GetAll();
+
+    //Update
+    Task<CommentDTO?> Update(int id, UpdateCommentRequestDTO update);
+
+    //Delete
     Task<Comment?> Delete(int id);
 }
