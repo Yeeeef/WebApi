@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Xh0CyvGuRP8=",
+  "dgSpecHash": "VkqnE3cytby6RkEv0PDU4tH9iUHcI0UGiq6w+J6QKbpGG+eX67DKzEc0Zsl+HJJXANDuovCfb/tqFUWDbQm/4Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\SyncthingServiceAcct\\Rj's Coding\\Coding Challenges\\WebApi\\Finshark\\Finshark.csproj",
+  "projectFilePath": "C:\\Users\\rjray\\Documents\\GitHub Projects\\WebApi\\Finshark\\Finshark.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\rjray\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\rjray\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",
