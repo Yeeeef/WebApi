@@ -4,5 +4,5 @@ namespace Finshark;
 
 public class AppUser : IdentityUser
 {
-    
+
 }
