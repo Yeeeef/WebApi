@@ -4,6 +4,7 @@ using Finshark.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Finshark.Data;
 using Finshark.Controllers;
+using System.Runtime.CompilerServices;
 
 namespace Finshark.Mappers
 {
@@ -20,19 +21,22 @@ namespace Finshark.Mappers
                 Id = comment.Id,
                 Subject = comment.Subject,
                 Content = comment.Content,
-                StockId = comment.StockId,
+                CreationTime = comment.CreationTime,
+                CreatedBy = comment.AppUser.UserName,
+                StockId = comment.StockId
             };
         }
 
 
 
-        public static Comment ToCommentFromCreateDTO(this CreateCommentRequestDTO CommentDTO, int id)
+        public static Comment ToCommentFromCreateDTO(this CreateCommentRequestDTO CommentDTO, int Id, string UserId)
         {
             return new Comment
             {
                 Subject = CommentDTO.Subject,
                 Content = CommentDTO.Content,
-                StockId = id,
+                StockId = Id,
+                AppUserId = UserId,
             };
         }
 

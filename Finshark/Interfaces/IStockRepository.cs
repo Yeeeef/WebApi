@@ -7,6 +7,7 @@ namespace Finshark.Interfaces;
 public interface IStockRepository
 {
     public Task<Stock?> GetByID(int id);
+    public Task<Stock?> GetBySymbol(string symbol);
     public Task<List<Stock>> GetAll(QueryObject query);
     public Task<Stock> Create(Stock stock);
     public Task<Stock?> Delete(int id);

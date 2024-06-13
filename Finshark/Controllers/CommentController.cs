@@ -1,9 +1,12 @@
 ﻿using System.Runtime.CompilerServices;
 using Finshark.Data;
 using Finshark.DTO;
+using Finshark.Extensions;
 using Finshark.Interfaces;
 using Finshark.Mappers;
 using Finshark.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Finshark.Controllers
@@ -12,14 +15,14 @@ namespace Finshark.Controllers
     [ApiController]
     public class CommentController : ControllerBase
     {
-        private readonly ApplicationDBContext _dbContext;
         private readonly ICommentRepository commentRepo;
-        private readonly IStockRepository stockRepository;
-        public CommentController(ApplicationDBContext DBContext, ICommentRepository CommentRepository, IStockRepository StockRepository)
+        private readonly IStockRepository _stockRepo;
+        private readonly UserManager<AppUser> _userManager;
+        public CommentController(ApplicationDBContext DBContext, ICommentRepository CommentRepository, IStockRepository StockRepository, UserManager<AppUser> userManager)
         {
-            _dbContext = DBContext;
             commentRepo = CommentRepository;
-            stockRepository = StockRepository;
+            _stockRepo = StockRepository;
+            _userManager = userManager;
         }
 
 
@@ -31,8 +34,8 @@ namespace Finshark.Controllers
                 return BadRequest(ModelState);
             }
             var _comments = await commentRepo.GetAll();
-            var commentsDTO = _comments.Select(c => c.ToCommentDTO());
-            return Ok(commentsDTO);
+            var _commentsDTO = _comments.Select(c => c.ToCommentDTO());
+            return Ok(_commentsDTO);
         }
 
         [HttpGet("{id:int}")]
@@ -47,21 +50,26 @@ namespace Finshark.Controllers
             {
                 return NotFound();
             }
-            return Ok(_comment);
+            return Ok(_comment.ToCommentDTO());
         }
 
-        [HttpPost("{stockId:int}")]
-        public async Task<IActionResult> Create([FromRoute] int StockId,[FromBody] CreateCommentRequestDTO commentDTO )
+        [HttpPost]
+        [Authorize]
+        [Route("{Symbol:alpha}")]
+        public async Task<IActionResult> Create([FromRoute] string Symbol,[FromBody] CreateCommentRequestDTO CommentDTO )
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var _comment = await commentRepo.Create(commentDTO, StockId);
-            if ( _comment== null)
-            {
-                return NotFound();
-            }
+            if(!ModelState.IsValid) return BadRequest(ModelState);
+
+            var stock = await _stockRepo.GetBySymbol(Symbol);
+            if(stock ==null) return BadRequest("Stock does not exist");
+
+            var username = User.GetUsername();
+            var _appUser = await _userManager.FindByNameAsync(username);
+            if (_appUser==null) return BadRequest();
+
+            var _comment = await commentRepo.Create(CommentDTO, stock, _appUser.Id);
+            if ( _comment==null) return BadRequest();
+
             return Ok(_comment.ToCommentDTO());
 
         }

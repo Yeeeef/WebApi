@@ -7,7 +7,7 @@ namespace Finshark.Interfaces;
 public interface ICommentRepository
 {
     //Create
-    Task<Comment?> Create(CreateCommentRequestDTO commentDTO, int StockId);
+    Task<Comment?> Create(CreateCommentRequestDTO commentDTO, Stock Stock, string UserId);
 
     //Read
     Task<Comment?> GetById(int id);

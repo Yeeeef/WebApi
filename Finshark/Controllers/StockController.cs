@@ -32,11 +32,12 @@ namespace Finshark.Controllers
                 return BadRequest(ModelState);
             }
             var stocks = await _stockRepository.GetAll(query);
-            var stocksDTO = stocks.Select(s => s.ToStockDTO());
+            var stocksDTO = stocks.Select(s => s.ToStockDTO()).ToList();
             return Ok(stocksDTO);
         }
 
         [HttpGet("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> GetByID([FromRoute]int id)
         {
             if(!ModelState.IsValid)
@@ -52,6 +53,7 @@ namespace Finshark.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreateStockRequestDTO stockDTO )
         {
             if(!ModelState.IsValid)
@@ -65,6 +67,7 @@ namespace Finshark.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockRequestDTO updateDTO)
         {
             if(!ModelState.IsValid)
@@ -78,6 +81,7 @@ namespace Finshark.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             if(!ModelState.IsValid)

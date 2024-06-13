@@ -22,17 +22,13 @@ public class CommentRepository : ICommentRepository
     
     public async Task<List<Comment>> GetAll()
     { 
-        var _comments = _dbContext.Comments.Include(s => s.Stock);
+        var _comments = _dbContext.Comments.Include(a => a.AppUser);
         return  await _comments.ToListAsync();
     }
 
-    public async Task<Comment?> Create(CreateCommentRequestDTO commentDTO, int StockId)
+    public async Task<Comment?> Create(CreateCommentRequestDTO commentDTO, Stock Stock, string UserId)
     {
-        if (_dbContext.Stocks.Find(StockId) == null)
-        {
-            return null;
-        }
-        var comment = commentDTO.ToCommentFromCreateDTO(StockId);
+        var comment = commentDTO.ToCommentFromCreateDTO(Stock.Id, UserId);
         await _dbContext.Comments.AddAsync(comment);
         await _dbContext.SaveChangesAsync();
         return comment;
@@ -40,7 +36,7 @@ public class CommentRepository : ICommentRepository
 
     public async Task<Comment?> GetById(int id)
     { 
-        return await _dbContext.Comments.FirstOrDefaultAsync(c => c.Id == id);
+        return await _dbContext.Comments.Include(a => a.AppUser).FirstOrDefaultAsync(c => c.Id == id);
     }
 
     public async Task<CommentDTO?> Update(int id, UpdateCommentRequestDTO update)
