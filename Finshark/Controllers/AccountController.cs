@@ -4,6 +4,8 @@ using Finshark.DTO;
 using Finshark.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Finshark;
 [Route("api/account")]
@@ -12,10 +14,12 @@ public class AccountController : ControllerBase
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly ITokenService _tokenService;
-    public AccountController(UserManager<AppUser> UserManager, ITokenService TokenService)
+    private readonly SignInManager<AppUser> _signInManager;
+    public AccountController(UserManager<AppUser> UserManager, ITokenService TokenService, SignInManager<AppUser> SignInManager)
     {
         _userManager = UserManager;
         _tokenService = TokenService;
+        _signInManager = SignInManager;
     }
 
     [HttpPost("register")]
@@ -61,5 +65,32 @@ public class AccountController : ControllerBase
         {
             return StatusCode(500, ex);
         }
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginDTO loginDTO)
+    {
+        if(!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+        var user = await _userManager.Users.FirstOrDefaultAsync<AppUser>(x => x.UserName == loginDTO.UserName);
+        if (user == null)
+        {
+            return Unauthorized("Invalid Account Information");
+        }
+        var result = await _signInManager.CheckPasswordSignInAsync(user, loginDTO.Password, false);
+        if (!result.Succeeded)
+        {
+            return Unauthorized("Invalid Account Information");
+        }
+        return Ok(
+            new NewUserDTO
+            {
+                UserName = loginDTO.UserName,
+                Email = user.Email,
+                Token = _tokenService.CreateToken(user)
+            }
+        );
     }
 }

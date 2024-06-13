@@ -4,6 +4,7 @@ using Finshark.Helpers;
 using Finshark.Interfaces;
 using Finshark.Mappers;
 using Finshark.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Update.Internal;
@@ -23,6 +24,7 @@ namespace Finshark.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
         {
             if(!ModelState.IsValid)
